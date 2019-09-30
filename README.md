@@ -47,3 +47,5 @@ Please email us a link to your fork of this repository, or a zip of your solutio
 ### Form Validation approach
 
 To start, I used the native HTML5 validation by using attributes like `type`, `required` and `minlenght`; which are supported by the majority of the browsers.
+
+The second step was to use JavaScript to validate the fields. I decided to use the ES5 syntax, including things like `Array.from` instead of the `spread` operator, to have a greater browser compatibility. I also used JavaScript to re-check some of the HTML5 validation, as an extra validation layer.

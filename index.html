@@ -152,7 +152,7 @@
 </head>
 
 <body>
-    <form method='post' action=''>
+    <form method='post' action='' onsubmit='return validateForm();'>
         <h1>Fill out this awesome form</h1>
         <fieldset>
             <h3>Your details</h3>
@@ -166,7 +166,7 @@
                 <label class='label' for='password'>
                     Password
                 </label>
-                <input class='error' type='password' id='password' name='password' minlength='8' required>
+                <input type='password' id='password' name='password' minlength='8' required>
             </p>
         </fieldset>
 
@@ -225,4 +225,53 @@
         </fieldset>
     </form>
 </body>
+<script>
+    function validateForm() {
+        // Create references to each form element that will be used during the validation process
+        // Since those references will not change at runtime, the use of "const" is recommended
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const colourInput = document.getElementById('colour');
+        const animalCheckboxes = Array.from(document.getElementsByName('animal'));
+        const tigerTypeInput = document.getElementById('tiger_type');
+
+        // Create flag that will be used as the return value
+        let isFormValid = true;
+
+        // JavaScript check to confirm that all the "required" inputs are filled
+        if(!emailInput.value || !passwordInput.value || !colourInput.value) {
+            isFormValid = false;
+        }
+
+        // JavaScript check to confirm that email is valid using Regular Expression
+        const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(!emailInput.value.match(emailRegex)) {
+            isFormValid = false;
+        }
+
+        // JavaScript check to confirm that password has at least 8 characters
+        if(passwordInput.value.length < 8) {
+            isFormValid = false;
+        }
+
+        // JavaScript check to confirm that at least 2 animals are chosen
+        const checkedAnimals = animalCheckboxes.filter((item) => {
+            return item.checked;
+        });
+        if (checkedAnimals.length < 2) {
+            isFormValid = false;
+        }
+
+        // JavaScript check to confirm that tiger type is filled (if tiger is selected)
+        const hasTiger = checkedAnimals.filter((item) => {
+            return item.id == 'tiger';
+        }).length > 0;
+
+        if (hasTiger && !tigerTypeInput.value) {
+            isFormValid = false;
+        }
+
+        return isFormValid;
+    }
+</script>
 </html>
