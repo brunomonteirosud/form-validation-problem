@@ -50,6 +50,7 @@
         }
 
         input[type='text'],
+        input[type='email'],
         input[type='password'],
         input[type='submit'],
         select {
@@ -59,6 +60,7 @@
         }
 
         input[type='text'],
+        input[type='email'],
         input[type='password'] {
             border: solid 1px #ddd;
             padding: .5em .5em;
@@ -87,6 +89,7 @@
 
 
         input[type='text']:focus,
+        input[type='email']:focus,
         input[type='password']:focus,
         input[type='submit']:focus {
             outline: none;
@@ -157,13 +160,13 @@
                 <label class='label' for='email'>
                     Email
                 </label>
-                <input type='text' id='email' name='email'>
+                <input type='email' id='email' name='email' required>
             </p>
             <p>
                 <label class='label' for='password'>
                     Password
                 </label>
-                <input class='error' type='password' id='password' name='username'>
+                <input class='error' type='password' id='password' name='password' minlength='8' required>
             </p>
         </fieldset>
 
@@ -173,7 +176,7 @@
                 <label class='label' for='colour'>
                     Colour
                 </label>
-                <select name='colour' id='colour'>
+                <select name='colour' id='colour' required>
                     <option value=''>Choose colour</option>
                     <option value='blue'>Blue</option>
                     <option value='green'>Green</option>

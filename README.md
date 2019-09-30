@@ -43,3 +43,7 @@ Please email us a link to your fork of this repository, or a zip of your solutio
 ---
 
 ## Additional information from Bruno Monteiro
+
+### Form Validation approach
+
+To start, I used the native HTML5 validation by using attributes like `type`, `required` and `minlenght`; which are supported by the majority of the browsers.
