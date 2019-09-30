@@ -238,6 +238,9 @@
         // Create flag that will be used as the return value
         let isFormValid = true;
 
+        // Remove previous errors
+        removeAllErrors();
+
         // JavaScript check to confirm that all the "required" inputs are filled
         if(!emailInput.value || !passwordInput.value || !colourInput.value) {
             isFormValid = false;
@@ -269,9 +272,22 @@
 
         if (hasTiger && !tigerTypeInput.value) {
             isFormValid = false;
+            insertError(tigerTypeInput);
         }
 
-        return isFormValid;
+        return false;
+    }
+
+    function removeAllErrors() {
+        const elements = Array.from(document.getElementsByTagName('p'));
+        elements.forEach((elem) => {
+            elem.classList.remove('error');
+        });
+    }
+
+    function insertError(element) {
+        const parent = element.parentNode;
+        parent.className = 'error';
     }
 </script>
 </html>
