@@ -76,6 +76,7 @@ const Input = ({
         <InputField
             type={inputType}
             id={inputId}
+            data-testid={`testId_${inputId}`}
             name={inputName}
             disabled={isDisabled}
             onChange={handleChange}
