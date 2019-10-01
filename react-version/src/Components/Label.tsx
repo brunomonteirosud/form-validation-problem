@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 interface ILabel {
     valid: boolean;
@@ -9,36 +9,41 @@ const LabelElement = styled.label<ILabel>`
     vertical-align: middle;
     width: 10em;
     display: inline-block;
-    color: ${(props) => (props.valid ? "#333" : "red")};
+    color: ${props => (props.valid ? '#333' : 'red')};
 `;
 
 const LabelElementForCheckbox = styled.label<ILabel>`
     margin-right: 1em;
-    color: ${(props) => (props.valid ? "#333" : "red")};
+    color: ${props => (props.valid ? '#333' : 'red')};
 `;
 
 interface IProps {
-    for?: string;
+    forReference?: string;
     children: string;
     forCheckbox?: boolean;
     isValid?: boolean;
 }
 
-const Label = (props: IProps) => {
-    const [isValid, setIsValid] = React.useState(false);
+const Label = ({ forReference, children, forCheckbox, isValid }: IProps) => {
+    const [isValidLocal, setIsValidLocal] = React.useState(false);
 
     React.useEffect(() => {
-        if (props.isValid) {
-            setIsValid(true);
+        if (isValid) {
+            setIsValidLocal(true);
         } else {
-            setIsValid(false);
+            setIsValidLocal(false);
         }
-    }, [props.isValid]);
+    }, [isValid]);
 
-    return props.forCheckbox ?
-    <LabelElementForCheckbox htmlFor={props.for} valid={isValid}>{props.children}</LabelElementForCheckbox>
-    :
-    <LabelElement htmlFor={props.for} valid={isValid}>{props.children}</LabelElement>;
+    return forCheckbox ? (
+        <LabelElementForCheckbox htmlFor={forReference} valid={isValidLocal}>
+            {children}
+        </LabelElementForCheckbox>
+    ) : (
+        <LabelElement htmlFor={forReference} valid={isValidLocal}>
+            {children}
+        </LabelElement>
+    );
 };
-    
+
 export default Label;

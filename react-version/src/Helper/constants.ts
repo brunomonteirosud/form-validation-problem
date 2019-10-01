@@ -1,1 +1,2 @@
-export const TIGER = "tiger";
+const TIGER = 'tiger';
+export default TIGER;
