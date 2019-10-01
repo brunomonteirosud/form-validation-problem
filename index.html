@@ -102,6 +102,11 @@
             border-color: #333;
         }
 
+        input[type='text']:disabled {
+            color: #999;
+            background-color: #eee;
+        }
+
 
 
 
@@ -148,12 +153,35 @@
             border-color: red;
         }
 
+        .htmlValidationBox {
+            display: inline-block;
+            background-color: #eff5ff;
+            padding: 1em;
+        }
+
+        .notificationError {
+            padding: 1em;
+            background-color: #ffefef;
+            color: #a50707;
+            border-radius: .25em;
+        }
+
+        .notificationError > p {
+            margin: 0.25em 0;
+        }
+
     </style>
 </head>
 
 <body>
     <form method='post' action='' onsubmit='return validateForm();'>
         <h1>Fill out this awesome form</h1>
+        <div class='htmlValidationBox'>
+            <input type='checkbox' name='html_validation' id='html_validation' checked onclick='toggleHTMLValidation(this);'>
+            <label for='html_validation' title='This will define the use of the "required" attribute in the HTML.'>
+                Enable HTML validation (?)
+            </label>
+        </div>
         <fieldset>
             <h3>Your details</h3>
             <p>
@@ -195,7 +223,7 @@
                      Bear
                 </label>
 
-                <input type='checkbox' name='animal' value='tiger' id='tiger'>
+                <input type='checkbox' name='animal' value='tiger' id='tiger' onclick='toggleTigerType(this);'>
                 <label for='tiger'>
                     Tiger
                 </label>
@@ -215,13 +243,14 @@
                 <label class='label' for='tiger_type'>
                     Type of tiger
                 </label>
-                <input type='text' name='tiger_type' id='tiger_type'>
+                <input type='text' name='tiger_type' id='tiger_type' disabled>
             </p>
         </fieldset>
         <fieldset>
             <p>
                 <input type='submit' value='Create account'>
             </p>
+            <div id='notification_box'></div>
         </fieldset>
     </form>
 </body>
@@ -242,19 +271,30 @@
         removeAllErrors();
 
         // JavaScript check to confirm that all the "required" inputs are filled
-        if(!emailInput.value || !passwordInput.value || !colourInput.value) {
+        if(!emailInput.value) {
             isFormValid = false;
+            insertError(emailInput);
+        }
+        if(!passwordInput.value) {
+            isFormValid = false;
+            insertError(passwordInput);
+        }
+        if(!colourInput.value) {
+            isFormValid = false;
+            insertError(colourInput);
         }
 
         // JavaScript check to confirm that email is valid using Regular Expression
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if(!emailInput.value.match(emailRegex)) {
             isFormValid = false;
+            insertError(emailInput, ' is not in a valid format.');
         }
 
         // JavaScript check to confirm that password has at least 8 characters
         if(passwordInput.value.length < 8) {
             isFormValid = false;
+            insertError(passwordInput, ' needs to have at least 8 characters.');
         }
 
         // JavaScript check to confirm that at least 2 animals are chosen
@@ -263,6 +303,7 @@
         });
         if (checkedAnimals.length < 2) {
             isFormValid = false;
+            insertError(animalCheckboxes[0], ' needs to have at least 2 selections.');
         }
 
         // JavaScript check to confirm that tiger type is filled (if tiger is selected)
@@ -270,24 +311,78 @@
             return item.id == 'tiger';
         }).length > 0;
 
-        if (hasTiger && !tigerTypeInput.value) {
+        if (!hasTiger) {
+            tigerTypeInput.value = '';
+        } else if (hasTiger && !tigerTypeInput.value) {
             isFormValid = false;
             insertError(tigerTypeInput);
         }
 
-        return false;
+        return false;;
     }
 
     function removeAllErrors() {
+        const notificationBox = document.getElementById('notification_box');
+        notificationBox.style.display = 'none';
+        notificationBox.innerHTML = '';
+
         const elements = Array.from(document.getElementsByTagName('p'));
         elements.forEach((elem) => {
             elem.classList.remove('error');
         });
     }
 
-    function insertError(element) {
+    function insertError(element, custom_message) {
+        // Add error class to notification box
+        const notificationBox = document.getElementById('notification_box');
+        notificationBox.style.display = 'block';
+        notificationBox.className = 'notificationError';
+
+        // Add individual error message for each element
+        function formatName(name) {
+            const formattedNamed = '\"' + name.split('_').join(' ').toUpperCase() + '\"';
+            return formattedNamed;
+        }
+        const errorMessage = document.createElement('p');
+        if (custom_message) {
+            errorMessage.innerText = formatName(element.name) + custom_message;
+        } else {
+            errorMessage.innerText = formatName(element.name) + ' is a required field.';
+        }
+        notificationBox.appendChild(errorMessage);
+        
+
         const parent = element.parentNode;
         parent.className = 'error';
+    }
+
+    function toggleHTMLValidation(htmlValidationCheckbox) {
+        const inputElements = Array.from(document.getElementsByTagName('input'));
+        inputElements.forEach((elem) => {
+            elem.required = htmlValidationCheckbox.checked;
+            if (elem.type == 'email') {
+                elem.type = 'text';
+            }
+            if (elem.type == 'password') {
+                elem.minLength = 0;
+            }
+        });
+
+        const selectElements = Array.from(document.getElementsByTagName('select'));
+        selectElements.forEach((elem) => {
+            elem.required = htmlValidationCheckbox.checked;
+        });
+    }
+
+    function toggleTigerType(tigerCheckbox) {
+        const tigerTypeInput = document.getElementById('tiger_type');
+        tigerTypeInput.disabled = !tigerCheckbox.checked;
+
+        // If HTML Validation is disabled, skip the use of the "required" attribute
+        const htmlValidationCheckbox = document.getElementById('html_validation');
+        if (htmlValidationCheckbox.checked) {
+            tigerTypeInput.required = tigerCheckbox.checked;
+        }
     }
 </script>
 </html>
