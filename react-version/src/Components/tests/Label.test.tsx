@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import Label from '../Label';
 
 test('Render Label component with correct style when invalid', () => {
