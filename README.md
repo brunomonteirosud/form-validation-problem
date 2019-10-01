@@ -65,3 +65,5 @@ That said, a React version was included in the repository. Refer to the `react-v
 I decided to include some extra features (not required in the original instruction) to improve User Experience. Those are:
 
 - Type of tiger feedback, by disabling the input field if Tiger is not selected. Note that the value of the input will be preserved until the form is submitted. This to avoid the need of retyping something, in case the user changes his mind.
+- A notification box that will have a custom error message to inform the user what needs to be fixed.
+- A checkbox to disable HTML validation (for evaluation purposes)
