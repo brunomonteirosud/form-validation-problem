@@ -12,10 +12,20 @@ To achieve that, I used React Hooks (`useState` and `useEffect`) to manage the s
 
 I also decided to keep the validation functions (with it's criteria) in a separate file, which is aligned with some clean code principles, like "Don't Repeat Yourself", "Separation of Concerns", etc.
 
+## Quality Control
+
+This project uses ESLint with some basic React and Typescript configuration. It also uses Prettier.
+
+Before each commit, ESLint and Prettier are called by Husky, to make sure the code looks good to be submitted.
+
 ## Some of the tech included in this project
-- ReactJS
-- TypeScript
-- NPM
-- StyledComponents
-- Babel
-- Webpack
+
+-   ReactJS
+-   TypeScript
+-   NPM
+-   StyledComponents
+-   Babel
+-   Webpack
+-   ESLint
+-   Prettier
+-   Husky
