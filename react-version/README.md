@@ -31,7 +31,7 @@ This project uses ESLint with some basic React and Typescript configuration. It 
 
 Before each commit, ESLint and Prettier are called by Husky, to make sure the code looks good to be submitted.
 
-UnitTests were also added to this project, using Jest and react-testing-library.
+Some Unit Tests were also added to this project, using Jest and react-testing-library.
 
 ## Some of the tech included in this project
 
