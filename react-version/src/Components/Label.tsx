@@ -7,12 +7,12 @@ const LabelElement = styled.label`
     display: inline-block;
 `;
 
-const LabelElementForCheckbox = styled(LabelElement)`
-    margin-left: 1em;
+const LabelElementForCheckbox = styled.label`
+    margin-right: 1em;
 `;
 
 interface Props {
-    for: string;
+    for?: string;
     children: string;
     forCheckbox?: boolean;
 }

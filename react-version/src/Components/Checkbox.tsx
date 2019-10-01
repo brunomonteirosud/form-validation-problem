@@ -7,7 +7,6 @@ const CheckboxField = styled.input`
     border: solid 1px #ddd;
     padding: .5em .5em;
     color: #555;
-    width: 16em;
     &:focus {
         outline: none;
         border-color: #0B77DB;

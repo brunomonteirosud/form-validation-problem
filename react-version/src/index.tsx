@@ -44,9 +44,7 @@ const AppForm = () => {
                     <Input inputType='email' inputId='email' inputName='email' isRequired={true} />
                 </p>
                 <p>
-                    <Label for='password'>
-                    Password
-                    </Label>
+                    <Label for='password'>Password</Label>
                     <Input inputType='password' inputId='password' inputName='password' isRequired={true} />
                 </p>
             </Fieldset>
@@ -54,9 +52,7 @@ const AppForm = () => {
             <Fieldset>
             <SubTitle>Your animal</SubTitle>
                 <p>
-                    <Label for='colour'>
-                    Colour
-                    </Label>
+                    <Label for='colour'>Colour</Label>
                     <Select selectName='colour' selectId='colour' isRequired={true} options={
                         [
                             {value: '', content: 'Choose colour'},
@@ -69,34 +65,22 @@ const AppForm = () => {
                     } />
                 </p>
                 <p>
-                    <span>
-                    Animal
-                    </span>
+                    <Label>Animal</Label>
                     
                     <Checkbox inputType='checkbox' inputName='animal' inputValue='bear' inputId='bear' />
-                    <Label for='bear' forCheckbox={true}>
-                    Bear
-                    </Label>
+                    <Label for='bear' forCheckbox={true}>Bear</Label>
                     
                     <Checkbox inputType='checkbox' inputName='animal' inputValue='tiger' inputId='tiger' />
-                    <Label for='tiger' forCheckbox={true}>
-                    Tiger
-                    </Label>
+                    <Label for='tiger' forCheckbox={true}>Tiger</Label>
                     
                     <Checkbox inputType='checkbox' inputName='animal' inputValue='snake' inputId='snake' />
-                    <Label for='snake' forCheckbox={true}>
-                    Snake
-                    </Label>
+                    <Label for='snake' forCheckbox={true}>Snake</Label>
                     
                     <Checkbox inputType='checkbox' inputName='animal' inputValue='donkey' inputId='donkey' />
-                    <Label for='donkey' forCheckbox={true}>
-                    Donkey
-                    </Label>
+                    <Label for='donkey' forCheckbox={true}>Donkey</Label>
                 </p>
                 <p>
-                    <Label for='tiger_type'>
-                    Type of tiger
-                    </Label>
+                    <Label for='tiger_type'>Type of tiger</Label>
                     <Input inputType='text' inputName='tiger_type' inputId='tiger_type' isDisabled={true} />
                 </p>
             </Fieldset>
