@@ -6,8 +6,11 @@ import Checkbox from "./Components/Checkbox";
 import Label from "./Components/Label";
 import Select from "./Components/Select";
 import Button from "./Components/Button";
+import { TIGER } from "./Helper/constants";
+import { validateAnimals, validateTigerType } from "./Helper/validation";
+import { getErrorMessage } from "./Helper/messages";
 
-const Form = styled.form`
+const Form = styled.div`
     background: #fff;
     padding: 1em 1.25em;
     border: solid 1px #ccc;
@@ -33,27 +36,115 @@ const SubTitle = styled.h3`
     color: #576774;
 `;
 
+interface INotificationBox {
+    show: boolean;
+}
+
+const NotificationBox = styled.div<INotificationBox>`
+    padding: 1em;
+    background-color: #ffefef;
+    color: #a50707;
+    border-radius: .25em;
+    display: ${(props) => props.show ? "block" : "none"};
+`;
+
+const NotificationBoxMessage = styled.p`
+    margin: 0.25em 0;
+`;
+
+const initialFormState = {
+    email: false,
+    password: false,
+    colour: false,
+    animals: false,
+    tiger_type: false
+};
+
+const initialSelectedAnimals = {
+    bear: false,
+    tiger: false,
+    snake: false,
+    donkey: false
+}
+
 const AppForm = () => {
+    const [formState, setFormState] = React.useState(initialFormState);
+    const [selectedAnimals, setSelectedAnimals] = React.useState(initialSelectedAnimals);
+    const [tigerSelected, setTigerSelected] = React.useState(false);
+    const [errorMessages, setErrorMessages] = React.useState([]);
+
+    React.useEffect(() => {
+        checkFormErrors(formState);
+    }, [tigerSelected])
+
+    const handleChangeValue = (field: string, value: boolean) => {
+        const newFormState = {...formState, [field]: value};
+        setFormState(newFormState);
+
+        checkFormErrors(newFormState);
+    }
+
+    const handleSelectAnimal = (animal: string, value: boolean) => {
+        if (animal === TIGER) {
+            setTigerSelected(value);
+        }
+
+        const newSelectedAnimals = {...selectedAnimals, [animal]: value};
+        setSelectedAnimals(newSelectedAnimals);
+        
+        const newFormState = {...formState, animals: validateAnimals(newSelectedAnimals)};
+        setFormState(newFormState);
+
+        checkFormErrors(newFormState);
+    }
+
+    const checkFormErrors = (currentState) => {
+        const errors = Object.entries(currentState).filter((item) => {
+            return item[1] === false;
+        })
+        const formatedErrorMessages = errors.filter((item) => {
+            const message = getErrorMessage(item[0], tigerSelected);
+            return message !== "";
+        }).map((item, idx) => {
+            const message = getErrorMessage(item[0], tigerSelected);
+            return (<NotificationBoxMessage key={idx}>{message}</NotificationBoxMessage>);
+        });
+        
+        setErrorMessages(formatedErrorMessages);
+
+        if (formatedErrorMessages.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    const submitForm = () => {
+        if (!checkFormErrors(formState)) {
+            // Call backend to submit form
+            alert("Success!");
+        }
+    }
     return (
-        <Form method='post' action=''>
+        <Form>
             <Title>Fill out this awesome form</Title>
             <Fieldset>
                 <SubTitle>Your details</SubTitle>
                 <p>
-                    <Label for='email'>Email</Label>
-                    <Input inputType='email' inputId='email' inputName='email' isRequired={true} />
+                    <Label for='email' isValid={formState.email}>Email</Label>
+                    <Input inputType='email' inputId='email' inputName='email' isRequired={true} setValue={handleChangeValue} />
                 </p>
                 <p>
-                    <Label for='password'>Password</Label>
-                    <Input inputType='password' inputId='password' inputName='password' isRequired={true} />
+                    <Label for='password' isValid={formState.password}>Password</Label>
+                    <Input inputType='password' inputId='password' inputName='password' isRequired={true} setValue={handleChangeValue} />
                 </p>
             </Fieldset>
             
             <Fieldset>
-            <SubTitle>Your animal</SubTitle>
+                <SubTitle>Your animal</SubTitle>
                 <p>
-                    <Label for='colour'>Colour</Label>
-                    <Select selectName='colour' selectId='colour' isRequired={true} options={
+                    <Label for='colour' isValid={formState.colour}>Colour</Label>
+                    <Select selectName='colour' selectId='colour' isRequired={true} setValue={handleChangeValue} options={
                         [
                             {value: '', content: 'Choose colour'},
                             {value: 'blue', content: 'Blue'},
@@ -65,30 +156,32 @@ const AppForm = () => {
                     } />
                 </p>
                 <p>
-                    <Label>Animal</Label>
+                    <Label isValid={formState.animals}>Animal</Label>
                     
-                    <Checkbox inputType='checkbox' inputName='animal' inputValue='bear' inputId='bear' />
-                    <Label for='bear' forCheckbox={true}>Bear</Label>
+                    <Checkbox inputType='checkbox' inputName='animal' inputValue='bear' inputId='bear' setValue={handleSelectAnimal} />
+                    <Label for='bear' forCheckbox={true} isValid={true}>Bear</Label>
                     
-                    <Checkbox inputType='checkbox' inputName='animal' inputValue='tiger' inputId='tiger' />
-                    <Label for='tiger' forCheckbox={true}>Tiger</Label>
+                    <Checkbox inputType='checkbox' inputName='animal' inputValue='tiger' inputId='tiger' setValue={handleSelectAnimal} />
+                    <Label for='tiger' forCheckbox={true} isValid={true}>Tiger</Label>
                     
-                    <Checkbox inputType='checkbox' inputName='animal' inputValue='snake' inputId='snake' />
-                    <Label for='snake' forCheckbox={true}>Snake</Label>
+                    <Checkbox inputType='checkbox' inputName='animal' inputValue='snake' inputId='snake' setValue={handleSelectAnimal} />
+                    <Label for='snake' forCheckbox={true} isValid={true}>Snake</Label>
                     
-                    <Checkbox inputType='checkbox' inputName='animal' inputValue='donkey' inputId='donkey' />
-                    <Label for='donkey' forCheckbox={true}>Donkey</Label>
+                    <Checkbox inputType='checkbox' inputName='animal' inputValue='donkey' inputId='donkey' setValue={handleSelectAnimal} />
+                    <Label for='donkey' forCheckbox={true} isValid={true}>Donkey</Label>
                 </p>
                 <p>
-                    <Label for='tiger_type'>Type of tiger</Label>
-                    <Input inputType='text' inputName='tiger_type' inputId='tiger_type' isDisabled={true} />
+                    <Label for='tiger_type' isValid={validateTigerType(tigerSelected, formState.tiger_type)}>Type of tiger</Label>
+                    <Input inputType='text' inputName='tiger_type' inputId='tiger_type' isDisabled={!tigerSelected} isRequired={tigerSelected} setValue={handleChangeValue} />
                 </p>
             </Fieldset>
             <Fieldset>
                 <p>
-                    <Button inputType='submit' inputValue='Create account' />
+                    <Button inputType='submit' inputValue='Create account' handleClick={submitForm} />
                 </p>
-                <div id='notification_box'></div>
+                    <NotificationBox show={errorMessages.length > 0}>
+                        {errorMessages}
+                    </NotificationBox>
             </Fieldset>
         </Form>
     );
