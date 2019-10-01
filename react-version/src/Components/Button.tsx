@@ -22,16 +22,18 @@ const ButtonElement = styled.input`
     }
 `;
 
-interface Props {
+interface IProps {
     inputType: string;
     inputValue: string;
+    handleClick: () => void;
 }
 
-const Button = (props: Props) => {
+const Button = (props: IProps) => {
     return (
         <ButtonElement
             type={props.inputType}
             value={props.inputValue}
+            onClick={props.handleClick}
         />
     );
 };

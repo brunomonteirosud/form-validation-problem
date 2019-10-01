@@ -18,16 +18,21 @@ const CheckboxField = styled.input`
     }
 `;
 
-interface Props {
+interface IProps {
     inputType: string;
     inputId: string;
     inputName: string;
     inputValue?: string;
     isRequired?: boolean;
     isDisabled?: boolean;
+    setValue: (key: string, value: boolean) => void;
 }
 
-const Checkbox = (props: Props) => {
+const Checkbox = (props: IProps) => {
+    const handleClick = (event: React.SyntheticEvent<HTMLInputElement>) => {
+        props.setValue(props.inputId, event.currentTarget.checked)
+    }
+
     return (
         <CheckboxField
             type={props.inputType}
@@ -36,6 +41,7 @@ const Checkbox = (props: Props) => {
             value={props.inputValue}
             required={props.isRequired}
             disabled={props.isDisabled}
+            onClick={handleClick}
         />
     );
 };
