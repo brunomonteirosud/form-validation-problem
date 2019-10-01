@@ -1,15 +1,15 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const CheckboxField = styled.input`
     font-size: 1em;
-    border-radius: .25em;
+    border-radius: 0.25em;
     border: solid 1px #ddd;
-    padding: .5em .5em;
+    padding: 0.5em 0.5em;
     color: #555;
     &:focus {
         outline: none;
-        border-color: #0B77DB;
+        border-color: #0b77db;
         box-shadow: 0 0 6px rgba(48, 140, 255, 0.25);
     }
     &:disabled {
@@ -28,22 +28,30 @@ interface IProps {
     setValue: (key: string, value: boolean) => void;
 }
 
-const Checkbox = (props: IProps) => {
+const Checkbox = ({
+    inputType,
+    inputId,
+    inputName,
+    inputValue,
+    isRequired,
+    isDisabled,
+    setValue
+}: IProps) => {
     const handleClick = (event: React.SyntheticEvent<HTMLInputElement>) => {
-        props.setValue(props.inputId, event.currentTarget.checked)
-    }
+        setValue(inputId, event.currentTarget.checked);
+    };
 
     return (
         <CheckboxField
-            type={props.inputType}
-            id={props.inputId}
-            name={props.inputName}
-            value={props.inputValue}
-            required={props.isRequired}
-            disabled={props.isDisabled}
+            type={inputType}
+            id={inputId}
+            name={inputName}
+            value={inputValue}
+            required={isRequired}
+            disabled={isDisabled}
             onClick={handleClick}
         />
     );
 };
-    
+
 export default Checkbox;

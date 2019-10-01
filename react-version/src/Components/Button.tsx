@@ -1,24 +1,24 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const ButtonElement = styled.input`
     background: #333;
     border-color: #333;
     border: solid 1px transparent;
-    background: #0B77DB;
+    background: #0b77db;
     color: #fff;
-    font-size: .875em;
-    padding: .75em 1em;
+    font-size: 0.875em;
+    padding: 0.75em 1em;
     cursor: pointer;
 
     &:focus {
-        background: #3D6EAC;
+        background: #3d6eac;
         outline: none;
-        border-color: #0B77DB;
+        border-color: #0b77db;
         box-shadow: 0 0 6px rgba(48, 140, 255, 0.25);
     }
     &:hover {
-        background: #3C9AA7;
+        background: #3c9aa7;
     }
 `;
 
@@ -28,14 +28,14 @@ interface IProps {
     handleClick: () => void;
 }
 
-const Button = (props: IProps) => {
+const Button = ({ inputType, inputValue, handleClick }: IProps) => {
     return (
         <ButtonElement
-            type={props.inputType}
-            value={props.inputValue}
-            onClick={props.handleClick}
+            type={inputType}
+            value={inputValue}
+            onClick={handleClick}
         />
     );
 };
-    
+
 export default Button;

@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 interface ISelect {
     error: boolean;
@@ -7,12 +7,12 @@ interface ISelect {
 
 const SelectElement = styled.select<ISelect>`
     font-size: 1em;
-    border-radius: .25em;
+    border-radius: 0.25em;
     width: 17em;
     -webkit-appearance: none;
-    border-color: ${(props) => (props.error ? "red" : "#ddd")};
+    border-color: ${props => (props.error ? 'red' : '#ddd')};
     &:focus {
-        border-color: ${(props) => (props.error ? "red" : "#ddd")};
+        border-color: ${props => (props.error ? 'red' : '#ddd')};
     }
 `;
 
@@ -29,44 +29,54 @@ interface IProps {
     setValue: (key: string, value: boolean) => void;
 }
 
-const Select = (props: IProps) => {
+const Select = ({
+    selectId,
+    selectName,
+    isRequired,
+    options,
+    setValue
+}: IProps) => {
     const [isValid, setIsValid] = React.useState(false);
-    const [currentValue, setCurrentValue] = React.useState("");
+    const [currentValue, setCurrentValue] = React.useState('');
 
     React.useEffect(() => {
-        if (!props.isRequired) {
+        if (!isRequired) {
             setIsValid(true);
-        } else if (currentValue === "") {
+        } else if (currentValue === '') {
             setIsValid(false);
         }
-    }, [props.isRequired]);
+    }, [isRequired]);
 
     const handleChange = (event: React.SyntheticEvent<HTMLSelectElement>) => {
-        if (event.currentTarget.value === "") {
+        if (event.currentTarget.value === '') {
             setIsValid(false);
-            props.setValue(props.selectId, false);
+            setValue(selectId, false);
         } else {
             setIsValid(true);
-            props.setValue(props.selectId, true);
+            setValue(selectId, true);
         }
 
         setCurrentValue(event.currentTarget.value);
-    }
+    };
 
-    const options = props.options.map((item, idx) => {
-        return <option key={idx} value={item.value}>{item.content}</option>
+    const formattedOptions = options.map((item, idx) => {
+        return (
+            <option key={idx} value={item.value}>
+                {item.content}
+            </option>
+        );
     });
     return (
         <SelectElement
-            id={props.selectId}
-            name={props.selectName}
-            required={props.isRequired}
+            id={selectId}
+            name={selectName}
+            required={isRequired}
             onChange={handleChange}
             error={!isValid}
         >
-            {options}
+            {formattedOptions}
         </SelectElement>
     );
 };
-    
+
 export default Select;
