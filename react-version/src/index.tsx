@@ -1,6 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
+import Input from "./Components/Input";
+import Checkbox from "./Components/Checkbox";
+import Label from "./Components/Label";
+import Select from "./Components/Select";
+import Button from "./Components/Button";
 
 const Form = styled.form`
     background: #fff;
@@ -35,72 +40,58 @@ const AppForm = () => {
             <Fieldset>
                 <SubTitle>Your details</SubTitle>
                 <p>
-                    <label htmlFor='email'>Email</label>
-                    <input type='email' id='email' name='email' required />
+                    <Label for='email'>Email</Label>
+                    <Input inputType='email' inputId='email' inputName='email' isRequired={true} />
                 </p>
                 <p>
-                    <label htmlFor='password'>
-                    Password
-                    </label>
-                    <input type='password' id='password' name='password' required />
+                    <Label for='password'>Password</Label>
+                    <Input inputType='password' inputId='password' inputName='password' isRequired={true} />
                 </p>
             </Fieldset>
             
             <Fieldset>
             <SubTitle>Your animal</SubTitle>
                 <p>
-                    <label htmlFor='colour'>
-                    Colour
-                    </label>
-                    <select name='colour' id='colour' required>
-                        <option value=''>Choose colour</option>
-                        <option value='blue'>Blue</option>
-                        <option value='green'>Green</option>
-                        <option value='red'>Red</option>
-                        <option value='black'>Black</option>
-                        <option value='brown'>Brown</option>
-                    </select>
+                    <Label for='colour'>Colour</Label>
+                    <Select selectName='colour' selectId='colour' isRequired={true} options={
+                        [
+                            {value: '', content: 'Choose colour'},
+                            {value: 'blue', content: 'Blue'},
+                            {value: 'green', content: 'Green'},
+                            {value: 'red', content: 'Red'},
+                            {value: 'black', content: 'Black'},
+                            {value: 'brown', content: 'Brown'},
+                        ]
+                    } />
                 </p>
                 <p>
-                    <span>
-                    Animal
-                    </span>
+                    <Label>Animal</Label>
                     
-                    <input type='checkbox' name='animal' value='bear' id='bear' />
-                    <label htmlFor='bear'>
-                    Bear
-                    </label>
+                    <Checkbox inputType='checkbox' inputName='animal' inputValue='bear' inputId='bear' />
+                    <Label for='bear' forCheckbox={true}>Bear</Label>
                     
-                    <input type='checkbox' name='animal' value='tiger' id='tiger' />
-                    <label htmlFor='tiger'>
-                    Tiger
-                    </label>
+                    <Checkbox inputType='checkbox' inputName='animal' inputValue='tiger' inputId='tiger' />
+                    <Label for='tiger' forCheckbox={true}>Tiger</Label>
                     
-                    <input type='checkbox' name='animal' value='snake' id='snake' />
-                    <label htmlFor='snake'>
-                    Snake
-                    </label>
+                    <Checkbox inputType='checkbox' inputName='animal' inputValue='snake' inputId='snake' />
+                    <Label for='snake' forCheckbox={true}>Snake</Label>
                     
-                    <input type='checkbox' name='animal' value='donkey' id='donkey' />
-                    <label htmlFor='donkey'>
-                    Donkey
-                    </label>
+                    <Checkbox inputType='checkbox' inputName='animal' inputValue='donkey' inputId='donkey' />
+                    <Label for='donkey' forCheckbox={true}>Donkey</Label>
                 </p>
                 <p>
-                    <label htmlFor='tiger_type'>
-                    Type of tiger
-                    </label>
-                    <input type='text' name='tiger_type' id='tiger_type' disabled />
+                    <Label for='tiger_type'>Type of tiger</Label>
+                    <Input inputType='text' inputName='tiger_type' inputId='tiger_type' isDisabled={true} />
                 </p>
             </Fieldset>
             <Fieldset>
                 <p>
-                    <input type='submit' value='Create account' />
+                    <Button inputType='submit' inputValue='Create account' />
                 </p>
                 <div id='notification_box'></div>
             </Fieldset>
         </Form>
-        );
-    };
-    
-    ReactDOM.render(<AppForm />, document.getElementById("root"));
+    );
+};
+
+ReactDOM.render(<AppForm />, document.getElementById("root"));

@@ -3,3 +3,11 @@
 ## Purpose
 
 The idea of this project is to create a solution for the "Form validation problem" using React. This will show my React skills and allow me to develop features not possible in the "pure" JavaScript version of the project.
+
+## Some of the tech included in this project
+- ReactJS
+- TypeScript
+- NPM
+- StyledComponents
+- Babel
+- Webpack
